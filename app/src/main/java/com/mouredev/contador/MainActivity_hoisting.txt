@@ -56,13 +56,22 @@ class MainActivity : ComponentActivity() {
 fun AppContador() {
     var valorActual by remember { mutableStateOf(value = 0) }
     Column() {
-        Button(onClick = { valorActual += 1 }) {
+        BotonesContador(
+            presiona = { valorActual += it }
+        )
+        TextosContador(valorActual)
+    }
+}
+
+@Composable
+fun BotonesContador(presiona: (Int)->Unit) {
+    Column() {
+        Button(onClick = { presiona(1) }) {
             Text(text = "SUMAR 1")
         }
-        Button(onClick = { valorActual -= 1 }) {
+        Button(onClick = { presiona(-1) }) {
             Text(text = "RESTAR 1")
         }
-        TextosContador(valorActual)
     }
 }
 
