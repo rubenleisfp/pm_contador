@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Contador</string>
+    <string name="operator1">Operador1</string>
+    <string name="operator2">Operador2</string>
+</resources>
