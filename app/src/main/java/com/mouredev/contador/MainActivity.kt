@@ -47,14 +47,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppContador(viewModel: ContadorViewModel) {
     //Obtenemos contadorState, para asi pasarselo a textosContador
-    val contadorState by viewModel.uiState.collectAsState()
+    val contador by viewModel.contador.collectAsState()
     Column() {
         BotonesContador(
             //Llamamos al viewModelo, que actualizara ContadorState y como consecuencia
             // se lanzara un recompose
             presiona = { viewModel.actualizarValor(it) }
         )
-        TextosContador(contadorState.contador)
+        TextosContador(contador)
     }
 }
 

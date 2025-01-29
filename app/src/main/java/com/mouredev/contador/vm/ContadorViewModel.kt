@@ -14,18 +14,14 @@ import kotlinx.coroutines.flow.update
 class ContadorViewModel : ViewModel(){
 
     //Tenemos un uiState privado que si podemos modificar
-    private val _uiState = MutableStateFlow(ContadorState(0))
+    private var _contador = MutableStateFlow(0)
     //Tenemos una copia de _uisState publica que no podemos modificar
-    val uiState: StateFlow<ContadorState> = _uiState.asStateFlow()
+    val contador: StateFlow<Int> = _contador.asStateFlow()
 
     /**
      * Funcion que actualiza el uiState
      */
     fun actualizarValor(incrementoDecremento : Int) {
-        val  nuevoValor = _uiState.value.contador + incrementoDecremento
-        // De mi uiState, actualizo la variable contador
-        _uiState.update { currentState ->
-            currentState.copy(contador = nuevoValor)
-        }
+        _contador.value = _contador.value + incrementoDecremento
     }
 }
