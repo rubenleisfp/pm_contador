@@ -50,23 +50,58 @@ class MainActivity : ComponentActivity() {
 }
 
 
+/**
+ * AppContador invoca a 2 funciones: BotonesContador y TextosContador
+ *
+ * En ambos necesitamos la variable valorActual, es por ello que "elevamos"
+ * esta variable a la funcion padre de las 2: AppContador.
+ *
+ * De esta manera todos las funciones hija, tendrá acceso a esta variable
+ * 
+ */
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppContador() {
     var valorActual by remember { mutableStateOf(value = 0) }
     Column() {
-        Button(onClick = { valorActual += 1 }) {
-            Text(text = "SUMAR 1")
-        }
-        Button(onClick = { valorActual -= 1 }) {
-            Text(text = "RESTAR 1")
-        }
+        BotonesContador(
+
+            presiona = { incremento -> valorActual += incremento }
+            //presiona = { valorActual += it }
+
+        )
         TextosContador(valorActual)
     }
 }
 
+/**
+ * Recibo una funcion presion que tiene como argumento un entero y no devuelve nada.
+ * Esa funcion será invocada al hacer click en el botón con el valor 1 si se suma y -1 si se resta
+ * En ningún  caso podria recibir el parámetro valorActual en esta funcion para modificarlo, ya que
+ * en Kotlin no son modificables los parámetros de una función:
+ * https://stackoverflow.com/questions/44109098/how-do-i-make-method-param-mutable-in-kotlin
+ *
+ * Es por ello que se utiliza esta estrategia de pasar una funcion lambda
+ *
+ */
+@Composable
+fun BotonesContador(presiona: (Int)->Unit) {
+    Column() {
+        Button(onClick = { presiona(1) }) {
+            Text(text = "SUMAR 1")
+        }
+        Button(onClick = { presiona(-1) }) {
+            Text(text = "RESTAR 1")
+        }
+    }
+}
 
+/**
+ * Como en esta funcion no es necesario modificar valorActual,
+ * podemos recibirlo como argumento.
+ *
+ */
 @Composable
 fun TextosContador(valorActual: Int) {
     Text(text = "$valorActual", fontSize = 30.sp)
